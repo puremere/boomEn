@@ -1,0 +1,298 @@
+﻿@model banimo.ViewModelPost.OrderList
+
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "مدیریت سفارشات";
+
+}
+@section scripts{
+
+    <style>
+        .nav-tabs {
+            padding-right: 0px;
+        }
+
+            .nav-tabs li {
+                float: right !important;
+            }
+
+        td {
+           
+            padding: 15px;
+            text-align: center
+        }
+
+        th {
+            white-space: nowrap;
+            padding: 15px;
+            text-align: center
+        }
+    </style>
+
+    <link href="~/Content/easy-autocomplete.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.easy-autocomplete.min.js"></script>
+}
+
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin:0">
+                    <div class="col-lg-6" style="padding:25px">
+                        <p>لطفا یکی از پیک ها را انتخاب کنید</p>
+                        <div style="display:inline-block">
+                            @if (Model.myUsers != null)
+                            {
+
+                                @Html.DropDownList("deliverDromdown", new SelectList(Model.myUsers, "ID", "fullname"), new { @class = "form-control", })
+
+
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6" style="padding:25px">
+                        <p>توضحات ادمین</p>
+                        <textarea id="adminDesc" class="form-control" cols="8" style="height:150px"></textarea>
+                    </div>
+                </div>
+
+
+                <div id="setDeliver" style="display:inline-block" class="btn  btn-default">تایید</div>
+                <div id="rowSelectd"></div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="row" style="background-color:white; padding:10px; margin:0px; margin-top:65px">
+
+
+
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home" style=" color: #8d8d8d; ">آخرین سفارشات </a></li>
+
+        <li><a data-toggle="tab" href="#menu1" style=" color: #8d8d8d; ">لیست زمان مجاز ارسال</a></li>
+        <li><a data-toggle="tab" href="#menu2" style=" color: #8d8d8d; ">افزودن زمان جدید</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active" style="padding-top:20px">
+
+
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <p style="display:inline-block">وضعیت سفارش :</p>
+                    <select class="form-control" style="width:70%; display:inline-block" id="selectOrderType">
+                        <option value="">همه</option>
+                        <option value="1">پرداخت آنلاین</option>
+                        <option value="2">پرداخت در محل</option>
+                        <option value="3">درحال بررسی</option>
+                        <option value="4">ارسال شده</option>
+                        <option value="5">تحویل شده</option>
+                        <option value="0">ناموفق</option>
+                    </select>
+                </div>
+                <div class="col-lg-4">
+                    <p style="display:inline-block">عبارت مورد نظر :</p>
+                    <input style="width:70%; display:inline-block" class="form-control" id="searchText" />
+                </div>
+                <div class="col-lg-2">
+                    <p class="btn btn-success" style="display:inline-block" id="orderFormSearch"> تایید</p>
+
+                </div>
+
+               
+            </div>
+           
+            <p class="ORDERBUTT" style="display:none" id="dataOrder">11</p>
+            <div id="OrderTableHolder">
+               
+            </div>
+            <script>
+                var getlofo = function (page) {
+                    $("#loading").show();
+                    order = "22";
+                    type = $("#selectOrderType").val();
+                    search = $("#searchText").val();
+
+
+                    $.ajax({
+                        url: '/Admin/ChangeOrderList',
+                        dataType: 'html',
+                        data: {
+                            type: type,
+                            order: order,
+                            search: search,
+                            page: page
+                        },
+
+                        success: function (data) {
+
+                            $("#OrderTableHolder").html(data);
+                            $("#loading").hide();
+                        }
+
+
+
+                    });
+                   
+                }
+                $("#orderFormSearch").click(function () {
+                    $("#loading").show();
+                    getlofo(1)
+                });
+                $("#loading").show();
+                getlofo(1)
+
+            </script>
+
+
+
+        </div>
+
+        <div id="menu1" class="tab-pane fade" style="padding-top:20px">
+            <script>
+                $.ajax({
+                    url: '/Admin/GetTheListOfDeliveryTime',
+                    dataType: 'html',
+                    success: function (data) {
+
+                        $('#listholder').html(data);
+                        $('#listholder').css("display", "block");
+                    },
+                    error: function () {
+                        alert("timeFail")
+                    }
+                });
+
+            </script>
+            <div id="listholder" style="display:none;padding-top:10px">
+
+            </div>
+
+
+
+
+        </div>
+        <div id="menu2" class="tab-pane fade" style="padding-top:20px">
+            <div class="form-group ">
+                <label style="font:bold; margin-left:20px" class="control-label component" for="first-name">
+                    روز
+                </label>
+                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "شنبه",
+                        Value = "1"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "یک شنبه",
+                        Value = "2"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "دو شنبه",
+                        Value = "3"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "سه شنبه",
+                        Value = "4"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "چهار شنبه",
+                        Value = "5"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "پنچ شنبه",
+                        Value = "6"
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "جمعه",
+                        Value = "7"
+                    });
+
+                }
+                <div class="component ">
+                    @Html.DropDownList("daysOfWeek", listItems, "-- Select Status --", new { id = "daysOfWeek", style = "width:100%", @class = "DRPd form-control" })
+                </div>
+                <label style="font:bold; margin-left:20px" class="control-label component" for="first-name">
+                    از ساعت
+                </label>
+                <div class="component ">
+                    <input type="text" id="timefrom" class="form-control" />
+                </div>
+                <label style="font:bold; margin-left:20px" class="control-label component" for="first-name">
+                    تا ساعت
+                </label>
+                <div class="component ">
+                    <input type="text" id="timeto" class="form-control" />
+                </div>
+                <div class="component " style="direction: rtl; ">
+                    <button id="addTimeOfDeliver" class="btn btn-success">تایید</button>
+                    <script>
+                        $(document).ready(function () {
+                            $("#addTimeOfDeliver").click(function () {
+
+                                var DayOfWeek = $("#daysOfWeek").val();
+                                var TimeFrom = $("#timefrom").val();
+                                var TimeTo = $("#timeto").val();
+                                $.ajax({
+                                    url: '/Admin/addNewTimeOfDeliver',
+                                    dataType: 'html',
+                                    data: {
+                                        DayOfWeek: DayOfWeek,
+                                        TimeFrom: TimeFrom,
+                                        TimeTo: TimeTo
+                                    },
+                                    success: function (data) {
+                                        if (data === "success") {
+                                            toastr.options = {
+                                                "debug": false,
+                                                "positionClass": "toast-top-center",
+                                                "onclick": null,
+                                                "fadeIn": 300,
+                                                "fadeOut": 1000,
+                                                "timeOut": 5000,
+                                                "extendedTimeOut": 1000
+                                            }
+
+                                            toastr.success('با موقیت ثبت شد');
+                                            location.reload();
+                                        }
+
+                                    },
+                                    error: function () {
+                                        alert("خطا")
+                                    }
+                                });
+                            })
+                        })
+
+                    </script>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

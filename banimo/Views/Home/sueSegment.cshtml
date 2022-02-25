@@ -1,0 +1,99 @@
+﻿@using BotDetect.Web.Mvc;
+@using banimo.Classes;
+@{
+    ViewBag.Title = "sueSegment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{ if (@ViewBag.message != "")
+    {
+        <script>
+           
+            if ('@ViewBag.message' == "1") {
+                toastr.options = {
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "fadeIn": 300,
+                    "fadeOut": 1000,
+                    "timeOut": 5000,
+                    "extendedTimeOut": 1000
+                };
+                toastr.error('@Resources.res.wrongCaptcha');
+            }
+            else if ('@ViewBag.message' == "2") {
+                toastr.options = {
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "fadeIn": 300,
+                    "fadeOut": 1000,
+                    "timeOut": 5000,
+                    "extendedTimeOut": 1000
+                };
+                toastr.success('@Resources.res.complaintSettled');
+            }
+
+        </script>
+    }
+}
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+
+<div style="width:100%; background-color:white; padding:50px; direction:rtl">
+
+
+
+    @using (Html.BeginForm("SueVerification", "Home", FormMethod.Post,
+                            new { enctype = "multipart/form-data", id = "SueVerification", @class = "c-form-account" }))
+    {
+        @Html.AntiForgeryToken()
+        <label class=" floatt language languageDirection" style=" width: 100%;  MARGIN: 20px;">@Resources.res.complainText:</label>
+        <textarea class="language" id="content" name="content" style="width: 100%;min-height:300px;display:inline-block; padding:20px"></textarea>
+        <div class="languageDirection" style="margin:20px 0; max-width:400px ">
+
+            @{MvcCaptcha registrationCaptcha = CaptchaHelper.GetRegistrationCaptcha(); }
+            @if (!registrationCaptcha.IsSolved)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.Captcha(registrationCaptcha)
+                    </div>
+                    <div class="col-lg-12" style="margin-top:10px">
+                        @Html.Label(@Resources.res.insertCode, new { @class = "col-md-4 control-label",
+                         @for = "CaptchaCode" , style = " margin-top:15px", })
+
+                        <div class="col-md-6" style="float:right">
+                            @Html.TextBox("CaptchaCode", null, new { @class = "form-control captchaVal " })
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+        <div id="verify" class="btn btn-primary" style="display:inline-block;width: 150px;margin-top: 25px;">@Resources.res.OK</div>
+
+    }
+    <script>
+        $("#verify").click(function () {
+            if ($("#content").val().length > 5) {
+                $("form#SueVerification").submit();
+            }
+            else {
+
+                toastr.options = {
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "fadeIn": 300,
+                    "fadeOut": 1000,
+                    "timeOut": 5000,
+                    "extendedTimeOut": 1000,
+
+
+                }
+                toastr.error('@Resources.res.completeComplainText')
+            }
+        })
+    </script>
+
+
+</div>

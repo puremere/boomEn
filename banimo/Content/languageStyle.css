@@ -1,0 +1,129 @@
+﻿body {
+    --direction: rtl;
+    --directionOPS: ltr;
+    --align: left;
+    --aposit: right;
+    --font: sans-serif; /*IRANSans;*/
+    font-size: 16px;
+    --br: 10px 0px 0px 10px;
+    --br2: 0px 10px 10px 0px;
+
+}
+
+.sm-mint.sm-rtl li {
+    float: var(--align) !important;
+}
+.language {
+    text-align: var(--align) !important
+}
+.floatt {
+    float: var(--align) !important
+}
+.floattOP {
+    float: var(--aposit) !important
+}
+input.floatt {
+    border-radius: var(--br2);
+}
+div.floatt {
+    border-radius: var(--br);
+}
+.languageBorderRadious {
+    border-radius: var(--br);
+}
+.languageDirection {
+    direction: var(--direction) 
+}
+.priceOpposit {
+    direction: var(--directionOPS) !important
+}
+
+/* webkit solution */
+::-webkit-input-placeholder {
+    text-align: var(--align);
+}
+.verifInput::-webkit-input-placeholder {
+    text-align : center
+}
+/* mozilla solution */
+input.verifInput:-moz-placeholder {
+    text-align:center
+}
+input:-moz-placeholder {
+    text-align: var(--align);
+}
+
+p, span, h1, h2, h3, h4, h5, h6, div, input, textarea, a,span {
+    font-family: var(--font) !important;
+   
+}
+
+.sm-rtl, .sm-rtl ul, .sm-rtl li {
+    direction: var(--direction) !important;
+    text-align: var(--align) !important;
+    left: 0 !important;
+    right: unset !important;
+}
+.accordion:after {
+    float: var(--aposit) !important
+}
+.accordion {
+    text-align: var(--align) !important
+}
+.header {
+    direction: var(--direction) !important;
+}
+.Holder{
+    float:none !important;
+}
+.priceitem {
+    display: flex !important;
+    direction: var(--direction) !important;
+}
+    .priceitem p {
+        text-align: var(--align);
+    }
+
+.SearchReturnButt {
+    text-align: var(--align);
+}
+.searchText {
+    text-align: var(--align);
+}
+.contactItem span {
+    
+    text-align: var(--align);
+}
+.o-headline {
+    direction: var(--direction) !important;
+}
+.c-profile-stats__col p span {
+    text-align: var( --align);
+    direction: var(--direction)
+}
+
+.c-ui-input__field, .dk-selectric-input {
+    text-align: var( --align);
+    direction: var(--direction)
+}
+.c-profile-stats__col p {
+    text-align: var( --align);
+    direction: var(--direction)
+}
+.nav-tabs > li > a {
+    direction: var(--directionOPS)
+}
+.c-params__list li {
+    direction: var(--direction) !important;
+}
+.c-params__list-key .block, .c-params__list-value .block {
+    text-align: var( --align);
+}
+.c-params__headline span, .c-params__title {
+    text-align: var( --align);
+}
+.c-comments {
+    text-align: var( --align);
+    direction: var(--direction) !important;
+    padding: 20px
+}

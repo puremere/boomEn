@@ -1,0 +1,17 @@
+﻿@model banimo.ViewModel.aboutVM
+@{
+    ViewBag.Title = "aboutus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .aboutBody {
+        width: 100%;
+        background-color: white;
+        padding: 50px;
+        line-height: 3
+    }
+</style>
+<div style="" class="language languageDirection  aboutBody">
+    @Html.Raw(Model.content);
+</div>

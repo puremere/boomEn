@@ -1,0 +1,20 @@
+﻿@model banimo.ViewModel.aboutVM
+@{
+    ViewBag.Title = "Terms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .conholder {
+       
+       
+        width: 100%;
+        background-color: white;
+        padding: 50px;
+        line-height: 3;
+        font-size:16px
+    }
+</style>
+
+<div class="conholder language languageDirection" style="">
+    @Html.Raw(Model.content);
+</div>
